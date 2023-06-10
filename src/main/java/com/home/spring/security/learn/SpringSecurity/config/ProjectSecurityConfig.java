@@ -4,14 +4,24 @@ package com.home.spring.security.learn.SpringSecurity.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableMethodSecurity
 public class ProjectSecurityConfig {
+
+//    @Bean
+    public static PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+
+    }
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -43,8 +53,9 @@ public class ProjectSecurityConfig {
         return http.build();*/
 
 
-        http.authorizeHttpRequests((request) -> request.requestMatchers("/getAccDtls").authenticated()
-                .requestMatchers("/contact/**").permitAll())
+        http.authorizeHttpRequests((requests) -> requests.requestMatchers("/*").authenticated())
+    //authorizeHttpRequests((request) -> request.requestMatchers("/getAccDtls").authenticated()
+      //          .requestMatchers("/contact/**").permitAll())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults());
        return http.build();
@@ -64,7 +75,12 @@ public class ProjectSecurityConfig {
                 .authorities("user")
                 .build();
 
-        return  new InMemoryUserDetailsManager(user1,user2);
+        UserDetails user3 = User.builder()
+                .username("Ben")
+                .password("ben")
+                .authorities("USER")
+                .build();
+        return  new InMemoryUserDetailsManager(user1,user2,user3);
 
     }
 
