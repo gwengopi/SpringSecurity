@@ -8,18 +8,23 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableMethodSecurity
 public class ProjectSecurityConfig {
 
-//    @Bean
+   @Bean
     public static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+        return NoOpPasswordEncoder.getInstance();
 
     }
 
@@ -61,27 +66,32 @@ public class ProjectSecurityConfig {
        return http.build();
     }
 
+@Bean
+    public UserDetailsService jdbcUserDetailsManager(DataSource dataSource){
+        return new JdbcUserDetailsManager(dataSource);
+    }
 
-    @Bean
+    //Commenting below method as we are going to use jdbc style authentication
+   /* @Bean
     public InMemoryUserDetailsManager   defaultApplicationUsers(){
         UserDetails user1 = User.withDefaultPasswordEncoder()
-                .username("Kevin")
-                .password("kev")
+                .username("kevin")
+                .password("kevin")
                 .authorities("admin")
                 .build();
-        UserDetails user2 = User.withDefaultPasswordEncoder()
-                .username("Gwen")
-                .password("Gwe")
+        UserDetails user2 = User.withUsername("gwen")
+//                .username("Gwen")
+                .password("gwen")
                 .authorities("user")
                 .build();
 
         UserDetails user3 = User.builder()
-                .username("Ben")
-                .password("ben")
-                .authorities("USER")
+                .username("ben")
+                .password(passwordEncoder().encode("ben"))
+                .authorities("user")
                 .build();
         return  new InMemoryUserDetailsManager(user1,user2,user3);
 
-    }
+    }*/
 
 }
