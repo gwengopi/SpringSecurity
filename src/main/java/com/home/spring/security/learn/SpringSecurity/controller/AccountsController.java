@@ -18,7 +18,7 @@ public class AccountsController {
 
     @GetMapping("/getAccDtls")
 //    @PreAuthorize("hasRole('admin','USER','user')")
-    @PreAuthorize("hasAnyRole('admin', 'USER', 'user')")
+//    @PreAuthorize("hasAnyRole('admin', 'USER', 'user','ROLE_ADMIN','ROLE_admin')")
     public String getAccountDetails(){
 
         // Create an encoder with strength 16
