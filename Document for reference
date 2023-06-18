@@ -13,3 +13,13 @@ VALUES ('happy', '12345', true);
 
 INSERT INTO authorities (username, authority)
 VALUES ('happy', 'write');
+
+select * from customers;
+insert into customers values('ben@gmail.com','12345','read');
+
+Table customers created by using entitiy
+
+INSERT INTO customers (email, pwd, role)
+VALUES ('ben@gmail.com', '12345', 'read');
+commit;
+
