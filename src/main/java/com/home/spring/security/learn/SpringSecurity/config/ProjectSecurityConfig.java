@@ -36,7 +36,7 @@ public class ProjectSecurityConfig {
          */
 
       http.authorizeHttpRequests((requests) -> requests.requestMatchers("/getAccDtls","getAccDtls/","/myLoans","/myCards").authenticated()
-                        .requestMatchers("/notices","/contact/*").permitAll())
+                        .requestMatchers("/notices","/contact/*","/register").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
 //        return http.build();
@@ -66,7 +66,7 @@ public class ProjectSecurityConfig {
        return http.build();
     }
 
-@Bean
+//@Bean
     public UserDetailsService jdbcUserDetailsManager(DataSource dataSource){
         return new JdbcUserDetailsManager(dataSource);
     }
