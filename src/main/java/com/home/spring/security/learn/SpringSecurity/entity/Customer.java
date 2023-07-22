@@ -1,5 +1,6 @@
 package com.home.spring.security.learn.SpringSecurity.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.generator.Generator;
 
@@ -11,6 +12,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String email;
+    @JsonIgnore
     private String pwd;
 
     public int getId() {
